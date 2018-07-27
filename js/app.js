@@ -2,6 +2,16 @@
  * Create a list that holds all of your cards
  */
 
+const cards = [
+  'fa-diamond', 'fa-diamond',
+  'fa-paper-plane-o', 'fa-paper-plane-o',
+  'fa-anchor', 'fa-anchor',
+  'fa-bolt', 'fa-bolt',
+  'fa-leaf', 'fa-leaf',
+  'fa-cube', 'fa-cube',
+  'fa-bicycle', 'fa-bicycle',
+  'fa-bomb', 'fa-bomb'
+];
 
 /*
  * Display the cards on the page
@@ -9,6 +19,58 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+
+// init game version 1 - choose the fastest
+function initGame1() {
+  shuffle(cards);
+  const deck = document.querySelector('.deck');
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < cards.length; i++) {
+    const li = document.createElement('li');
+    li.classList.add('card', 'open', 'show');
+    li.innerHTML = `<i class="fa ${cards[i]}"></i>`;
+    fragment.appendChild(li);
+  }
+  deck.appendChild(fragment);
+}
+
+// init game version 2 - choose the fastest
+function initGame2() {
+  const deck = document.querySelector('.deck');
+  const fragment = document.createDocumentFragment();
+
+  shuffle(cards).forEach(function(card) {
+    const li = document.createElement('li');
+    li.classList.add('card', 'open', 'show');
+    li.innerHTML = `<i class="fa ${card}"></i>`;
+    fragment.appendChild(li);
+  });
+  deck.appendChild(fragment);
+}
+
+// init game version 3 - choose the fastest
+function initGame3() {
+  const deck = document.querySelector('.deck');
+  const fragment = document.createDocumentFragment();
+
+  shuffle(cards).map(function(card) {
+    const li = document.createElement('li');
+    li.classList.add('card', 'open', 'show');
+    li.innerHTML = `<i class="fa ${card}"></i>`;
+    fragment.appendChild(li);
+  });
+  deck.appendChild(fragment);
+}
+
+// init game version 4 - choose the fastest
+function initGame4() {
+  const deck = document.querySelector('.deck');
+  const cardsHTML = shuffle(cards).map(function(card) {
+    return `<li class="card open show"><i class="fa ${card}"></i></li>`;
+  });
+  deck.innerHTML = cardsHTML.join('');
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
