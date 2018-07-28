@@ -23,7 +23,7 @@ const cards = [
 function initGame() {
   const deck = document.querySelector('.deck');
   const cardsHTML = shuffle(cards).map(function(card) {
-    return `<li class="card"><i class="fa ${card}"></i></li>`;
+    return `<li class="card" data-card="${card}"><i class="fa ${card}"></i></li>`;
   });
   deck.innerHTML = cardsHTML.join('');
 }
@@ -63,23 +63,29 @@ let matchedCards = [];
 
 allCards.forEach(function(card) {
   card.addEventListener('click', function(ev) {
-// Test logs
-    console.log(ev);
-    console.log(ev.target.tagName);
-    console.log(card);
-// Open a card if it wasn't opened or matched earlier
+
+    // Open a card if it wasn't opened or matched earlier
     if (!card.classList.contains('open') && !card.classList.contains('match')) {
       card.classList.add('open', 'show');
       openedCards.push(card);
-      console.log(openedCards.length);
-      console.log(openedCards);
 
-      if (openedCards.length == 2) {
-        console.log('Two cards were opened. We have to close them now.');
-        openedCards.forEach(function(card) {
-          card.classList.remove('open', 'show');
-        });
-        openedCards = [];
+      // If there are two cards opened check if they match
+      if (openedCards.length === 2) {
+        // They match, so change their classes and move to another array
+        if (openedCards[0].dataset.card === openedCards[1].dataset.card) {
+          openedCards.forEach(function(card) {
+            card.classList.add('match');
+            card.classList.remove('open', 'show');
+            matchedCards.push(card);
+          });
+          openedCards = [];
+        // They are diffrent, so clean their classes and clean an array
+        } else {
+          openedCards.forEach(function(card) {
+            card.classList.remove('open', 'show');
+          });
+          openedCards = [];
+        }
       }
     }
   });
