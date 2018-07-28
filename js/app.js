@@ -69,5 +69,15 @@ allCards.forEach(function(card) {
     console.log(card);
 // Open a card
     card.classList.add('open', 'show');
+    openedCards.push(card);
+    console.log(openedCards.length);
+    console.log(openedCards);
+    if (openedCards.length == 2) {
+      console.log('Two cards were opened. We have to close them now.');
+      openedCards.forEach(function(card) {
+        card.classList.remove('open', 'show');
+      });
+      openedCards = []
+    }
   });
 });
