@@ -67,17 +67,20 @@ allCards.forEach(function(card) {
     console.log(ev);
     console.log(ev.target.tagName);
     console.log(card);
-// Open a card
-    card.classList.add('open', 'show');
-    openedCards.push(card);
-    console.log(openedCards.length);
-    console.log(openedCards);
-    if (openedCards.length == 2) {
-      console.log('Two cards were opened. We have to close them now.');
-      openedCards.forEach(function(card) {
-        card.classList.remove('open', 'show');
-      });
-      openedCards = []
+// Open a card if it wasn't opened or matched earlier
+    if (!card.classList.contains('open') && !card.classList.contains('match')) {
+      card.classList.add('open', 'show');
+      openedCards.push(card);
+      console.log(openedCards.length);
+      console.log(openedCards);
+
+      if (openedCards.length == 2) {
+        console.log('Two cards were opened. We have to close them now.');
+        openedCards.forEach(function(card) {
+          card.classList.remove('open', 'show');
+        });
+        openedCards = [];
+      }
     }
   });
 });
