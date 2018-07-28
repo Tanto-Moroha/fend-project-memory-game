@@ -81,10 +81,12 @@ allCards.forEach(function(card) {
           openedCards = [];
         // They are diffrent, so clean their classes and clean an array
         } else {
-          openedCards.forEach(function(card) {
-            card.classList.remove('open', 'show');
-          });
+          setTimeout(function() {
+            openedCards.forEach(function(card) {
+              card.classList.remove('open', 'show');
+            });
           openedCards = [];
+          }, 1000);
         }
       }
     }
