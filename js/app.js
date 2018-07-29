@@ -22,7 +22,12 @@ const cards = [
 
 const movesCounter = document.querySelector('.moves');
 let moves = 0;
+
 const starRating = document.querySelector('.stars');
+
+const stopwatch = document.querySelector('.stopwatch');
+let time = 0;
+
 
 function initGame() {
   const deck = document.querySelector('.deck');
@@ -33,6 +38,9 @@ function initGame() {
 
   moves = 0;
   movesCounter.textContent = moves;
+
+  time = 0;
+  stopwatch.textContent = time;
 }
 
 initGame();
@@ -74,8 +82,17 @@ allCards.forEach(function(card) {
 
 function respondOnClick(ev) {
   const card = ev.target;
+
+  if (time === 0) {
+    myStopwatch = setInterval(function() {
+      time += 1;
+      stopwatch.textContent = time;
+    }, 1000);
+  }
+
   // Open a card if it wasn't opened or matched earlier
   if (!card.classList.contains('open') && !card.classList.contains('match')) {
+
     card.classList.add('open', 'show');
     openedCards.push(card);
 
@@ -115,16 +132,15 @@ function respondOnClick(ev) {
       }
       // End of the game if the victory condition is met
       if (matchedCards.length === cards.length) {
-        stopGame();
+        clearInterval(myStopwatch);
+        setTimeout(displayCongratMsg, 1000);
       }
     }
   }
 }
 
-function stopGame() {
-  setTimeout(function() {
-    alert(`Congratulation. You matched all cards.
-           You did it in ${moves} moves.
-           It took you NNN minutes.`);
-  }, 1000);
+function displayCongratMsg() {
+  alert(`Congratulation. You matched all cards.\nYou did it in ${moves} moves.\nIt took you ${time} seconds.`);
 }
+
+let myStopwatch;
