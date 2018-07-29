@@ -84,11 +84,17 @@ function respondOnClick(ev) {
         openedCards = [];
       // They are diffrent, so clean their classes and clean an array
       } else {
+        allCards.forEach(function(card) {
+          card.removeEventListener('click', respondOnClick);
+        });
         setTimeout(function() {
           openedCards.forEach(function(card) {
             card.classList.remove('open', 'show');
           });
           openedCards = [];
+          allCards.forEach(function(card) {
+            card.addEventListener('click', respondOnClick);
+          });
         }, 1000);
       }
     }
