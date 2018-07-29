@@ -20,8 +20,9 @@ const cards = [
  *   - add each card's HTML to the page
  */
 
-const movesCounter = document.querySelector('.moves')
+const movesCounter = document.querySelector('.moves');
 let moves = 0;
+const starRating = document.querySelector('.stars');
 
 function initGame() {
   const deck = document.querySelector('.deck');
@@ -103,8 +104,15 @@ function respondOnClick(ev) {
           });
         }, 1000);
       }
+      // Change Moves Counter
       moves += 1;
       movesCounter.textContent = moves;
+      // Change Star Rating
+      if (starRating.firstElementChild) {
+        if (moves === 10 || moves === 14 || moves === 18) {
+          starRating.removeChild(starRating.firstElementChild);
+        }
+      }
     }
   }
 }
