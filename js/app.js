@@ -116,13 +116,18 @@ function respondOnClick(ev) {
         });
         setTimeout(function() {
           openedCards.forEach(function(card) {
-            card.classList.remove('open', 'show');
+            card.classList.add('unsuccessful');
+          });
+        }, 1000);
+        setTimeout(function() {
+          openedCards.forEach(function(card) {
+            card.classList.remove('open', 'show', 'unsuccessful');
           });
           openedCards = [];
           allCards.forEach(function(card) {
             card.addEventListener('click', respondOnClick);
           });
-        }, 1000);
+        }, 1500);
       }
       // Change Moves Counter
       moves += 1;
