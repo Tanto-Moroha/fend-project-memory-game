@@ -113,6 +113,18 @@ function respondOnClick(ev) {
           starRating.removeChild(starRating.firstElementChild);
         }
       }
+      // End of the game if the victory condition is met
+      if (matchedCards.length === cards.length) {
+        stopGame();
+      }
     }
   }
+}
+
+function stopGame() {
+  setTimeout(function() {
+    alert(`Congratulation. You matched all cards.
+           You did it in ${moves} moves.
+           It took you NNN minutes.`);
+  }, 1000);
 }
