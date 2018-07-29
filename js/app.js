@@ -62,33 +62,35 @@ let openedCards = [];
 let matchedCards = [];
 
 allCards.forEach(function(card) {
-  card.addEventListener('click', function(ev) {
+  card.addEventListener('click', respondOnClick);
+});
 
-    // Open a card if it wasn't opened or matched earlier
-    if (!card.classList.contains('open') && !card.classList.contains('match')) {
-      card.classList.add('open', 'show');
-      openedCards.push(card);
+function respondOnClick(ev) {
+  const card = ev.target;
+  // Open a card if it wasn't opened or matched earlier
+  if (!card.classList.contains('open') && !card.classList.contains('match')) {
+    card.classList.add('open', 'show');
+    openedCards.push(card);
 
-      // If there are two cards opened check if they match
-      if (openedCards.length === 2) {
-        // They match, so change their classes and move to another array
-        if (openedCards[0].dataset.card === openedCards[1].dataset.card) {
+    // If there are two cards opened check if they match
+    if (openedCards.length === 2) {
+      // They match, so change their classes and move to another array
+      if (openedCards[0].dataset.card === openedCards[1].dataset.card) {
+        openedCards.forEach(function(card) {
+          card.classList.remove('open', 'show');
+          card.classList.add('match');
+          matchedCards.push(card);
+        });
+        openedCards = [];
+      // They are diffrent, so clean their classes and clean an array
+      } else {
+        setTimeout(function() {
           openedCards.forEach(function(card) {
-            card.classList.add('match');
             card.classList.remove('open', 'show');
-            matchedCards.push(card);
           });
           openedCards = [];
-        // They are diffrent, so clean their classes and clean an array
-        } else {
-          setTimeout(function() {
-            openedCards.forEach(function(card) {
-              card.classList.remove('open', 'show');
-            });
-          openedCards = [];
-          }, 1000);
-        }
+        }, 1000);
       }
     }
-  });
-});
+  }
+}
