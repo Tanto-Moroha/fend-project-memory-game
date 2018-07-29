@@ -143,7 +143,7 @@ function respondOnClick(ev) {
 }
 
 function displayCongratMsg() {
-  alert(`Congratulation. You matched all cards.\nYou did it in ${moves} moves.\nIt took you ${time} seconds.`);
+  alert(`Congratulation. You matched all cards.\nYou did it in ${moves} moves.\nIt took you ${time} seconds.\nYour Star Rating is ${starRating.childElementCount}.`);
 }
 
 let myStopwatch;
