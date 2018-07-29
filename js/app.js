@@ -20,12 +20,18 @@ const cards = [
  *   - add each card's HTML to the page
  */
 
+const movesCounter = document.querySelector('.moves')
+let moves = 0;
+
 function initGame() {
   const deck = document.querySelector('.deck');
   const cardsHTML = shuffle(cards).map(function(card) {
     return `<li class="card" data-card="${card}"><i class="fa ${card}"></i></li>`;
   });
   deck.innerHTML = cardsHTML.join('');
+
+  moves = 0;
+  movesCounter.textContent = moves;
 }
 
 initGame();
@@ -57,7 +63,7 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-let allCards = document.querySelectorAll('.card');
+const allCards = document.querySelectorAll('.card');
 let openedCards = [];
 let matchedCards = [];
 
@@ -97,6 +103,8 @@ function respondOnClick(ev) {
           });
         }, 1000);
       }
+      moves += 1;
+      movesCounter.textContent = moves;
     }
   }
 }
