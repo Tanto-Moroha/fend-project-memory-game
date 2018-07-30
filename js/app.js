@@ -148,7 +148,10 @@ function respondOnClick(ev) {
 }
 
 function displayCongratMsg() {
-  alert(`Congratulation. You matched all cards.\nYou did it in ${moves} moves.\nIt took you ${time} seconds.\nYour Star Rating is ${starRating.childElementCount}.`);
+  const message = confirm(`Congratulation. You matched all cards.\nYou did it in ${moves} moves.\nIt took you ${time} seconds.\nYour Star Rating is ${starRating.childElementCount}. Do you wish to play again?`);
+  if (message) {
+    restartGame();
+  }
 }
 
 let myStopwatch;
