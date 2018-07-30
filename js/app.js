@@ -1,7 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
-
 const cards = [
   'fa-diamond', 'fa-diamond',
   'fa-paper-plane-o', 'fa-paper-plane-o',
@@ -13,21 +9,21 @@ const cards = [
   'fa-bomb', 'fa-bomb'
 ];
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+const starRating = document.querySelector('.stars');
 
 const movesCounter = document.querySelector('.moves');
 let moves = 0;
 
-const starRating = document.querySelector('.stars');
-
 const stopwatch = document.querySelector('.stopwatch');
 let time = 0;
 
+const restart = document.querySelector('.restart');
+restart.addEventListener('click', restartGame);
+
+let openedCards = [];
+let matchedCards = [];
+
+let myStopwatch;
 
 function initGame() {
   const deck = document.querySelector('.deck');
@@ -42,8 +38,6 @@ function initGame() {
   time = 0;
   stopwatch.textContent = time;
 }
-
-initGame();
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -60,7 +54,6 @@ function shuffle(array) {
     return array;
 }
 
-
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -72,17 +65,6 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-const restart = document.querySelector('.restart');
-restart.addEventListener('click', restartGame);
-
-const allCards = document.querySelectorAll('.card');
-let openedCards = [];
-let matchedCards = [];
-
-allCards.forEach(function(card) {
-  card.addEventListener('click', respondOnClick);
-});
-
 function respondOnClick(ev) {
   const card = ev.target;
 
@@ -93,15 +75,14 @@ function respondOnClick(ev) {
     }, 1000);
   }
 
-  // Open a card if it wasn't opened or matched earlier
+  // Open and show a card if it wasn't opened or matched earlier
   if (!card.classList.contains('open') && !card.classList.contains('match')) {
-
     card.classList.add('open', 'show');
     openedCards.push(card);
 
-    // If there are two cards opened check if they match
+    // When two cards are open check if they match
     if (openedCards.length === 2) {
-      // They match, so change their classes and move to another array
+      // If they match, change their classes and move to a new array
       if (openedCards[0].dataset.card === openedCards[1].dataset.card) {
         openedCards.forEach(function(card) {
           card.classList.remove('open', 'show');
@@ -109,30 +90,34 @@ function respondOnClick(ev) {
           matchedCards.push(card);
         });
         openedCards = [];
-      // They are diffrent, so clean their classes and clean an array
+      // If they are diffrent, clear their classes and clear an array
       } else {
+        // First, prevent for clicking another card
         allCards.forEach(function(card) {
           card.removeEventListener('click', respondOnClick);
         });
+        // Show that they don't match using CSS (add a class)
         setTimeout(function() {
           openedCards.forEach(function(card) {
             card.classList.add('unsuccessful');
           });
         }, 1000);
+        // Hide cards
         setTimeout(function() {
           openedCards.forEach(function(card) {
             card.classList.remove('open', 'show', 'unsuccessful');
           });
           openedCards = [];
+          // "Unlock all cards"
           allCards.forEach(function(card) {
             card.addEventListener('click', respondOnClick);
           });
         }, 1500);
       }
-      // Change Moves Counter
+      // Change a value of Moves Counter
       moves += 1;
       movesCounter.textContent = moves;
-      // Change Star Rating
+      // Change a value of Star Rating
       if (starRating.firstElementChild) {
         if (moves === 10 || moves === 14 || moves === 18) {
           starRating.removeChild(starRating.firstElementChild);
@@ -154,8 +139,13 @@ function displayCongratMsg() {
   }
 }
 
-let myStopwatch;
-
 function restartGame() {
   location.reload();
 }
+
+initGame();
+
+const allCards = document.querySelectorAll('.card');
+allCards.forEach(function(card) {
+  card.addEventListener('click', respondOnClick);
+});
