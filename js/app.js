@@ -119,7 +119,7 @@ function respondOnClick(ev) {
       movesCounter.textContent = moves;
       // Change a value of Star Rating
       if (starRating.firstElementChild) {
-        if (moves === 10 || moves === 14 || moves === 18) {
+        if (moves === 13 || moves === 15 || moves === 17) {
           starRating.removeChild(starRating.firstElementChild);
         }
       }
