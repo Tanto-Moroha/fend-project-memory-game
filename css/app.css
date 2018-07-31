@@ -73,7 +73,7 @@ h1 {
 .deck .card.open {
     cursor: default;
     transform: rotateY(360deg);
-    transition: 1s;
+    transition: 0.7s;
     background: #208cde;
 }
 
@@ -84,14 +84,14 @@ h1 {
 .deck .card.unsuccessful {
     cursor: default;
     background: #ff0100;
-    animation: shake 0.5s;
+    animation: shake 0.3s;
 }
 
 .deck .card.match {
     cursor: default;
     background: #17e730;
     font-size: 1.8em;
-    animation: shake 0.5s;
+    animation: shake 0.3s;
 }
 
 /*
