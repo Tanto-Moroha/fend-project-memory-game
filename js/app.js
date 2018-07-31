@@ -145,7 +145,7 @@ function restartGame() {
   while (starRating.firstElementChild) {
     starRating.removeChild(starRating.firstElementChild);
   }
-  starRating.innerHTML = '<li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li>';
+  starRating.innerHTML = '<li><i class="fa fa-star"></i></li> <li><i class="fa fa-star"></i></li> <li><i class="fa fa-star"></i></li>';
 }
 
 initGame();

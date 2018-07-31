@@ -138,6 +138,7 @@ h1 {
 }
 
 .score-panel .stars li {
+    color: gold;
     display: inline-block;
     list-style: none;
 }
