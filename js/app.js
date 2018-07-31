@@ -37,6 +37,8 @@ function initGame() {
 
   time = 0;
   stopwatch.textContent = time;
+
+  cardsEventListenerSwitchOn(true);
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -94,9 +96,7 @@ function respondOnClick(ev) {
         // If they are diffrent, clear their classes and clear an array
         } else {
           // First, prevent for clicking another card
-          allCards.forEach(function(card) {
-            card.removeEventListener('click', respondOnClick);
-          });
+          cardsEventListenerSwitchOn(false);
           // Show that they don't match using CSS (add a class)
           setTimeout(function() {
             openedCards.forEach(function(card) {
@@ -110,9 +110,7 @@ function respondOnClick(ev) {
             });
             openedCards = [];
             // "Unlock all cards"
-            allCards.forEach(function(card) {
-              card.addEventListener('click', respondOnClick);
-            });
+            cardsEventListenerSwitchOn(true);
           }, 1500);
         }
         // Change a value of Moves Counter
@@ -147,7 +145,15 @@ function restartGame() {
 
 initGame();
 
-const allCards = document.querySelectorAll('.card');
-allCards.forEach(function(card) {
-  card.addEventListener('click', respondOnClick);
-});
+function cardsEventListenerSwitchOn(switchOn) {
+  const allCards = document.querySelectorAll('.card');
+  if (switchOn) {
+    allCards.forEach(function(card) {
+      card.addEventListener('click', respondOnClick);
+    });
+  } else{
+    allCards.forEach(function(card) {
+      card.removeEventListener('click', respondOnClick);
+    });
+  }
+}
