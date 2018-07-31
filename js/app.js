@@ -66,67 +66,69 @@ function shuffle(array) {
  */
 
 function respondOnClick(ev) {
-  const card = ev.target;
+  if (ev.target.tagName === 'LI') {
+    const card = ev.target;
 
-  if (time === 0) {
-    myStopwatch = setInterval(function() {
-      time += 1;
-      stopwatch.textContent = time;
-    }, 1000);
-  }
+    if (time === 0) {
+      myStopwatch = setInterval(function() {
+        time += 1;
+        stopwatch.textContent = time;
+      }, 1000);
+    }
 
-  // Open and show a card if it wasn't opened or matched earlier
-  if (!card.classList.contains('open') && !card.classList.contains('match')) {
-    card.classList.add('open', 'show');
-    openedCards.push(card);
+    // Open and show a card if it wasn't opened or matched earlier
+    if (!card.classList.contains('open') && !card.classList.contains('match')) {
+      card.classList.add('open', 'show');
+      openedCards.push(card);
 
-    // When two cards are open check if they match
-    if (openedCards.length === 2) {
-      // If they match, change their classes and move to a new array
-      if (openedCards[0].dataset.card === openedCards[1].dataset.card) {
-        openedCards.forEach(function(card) {
-          card.classList.remove('open', 'show');
-          card.classList.add('match');
-          matchedCards.push(card);
-        });
-        openedCards = [];
-      // If they are diffrent, clear their classes and clear an array
-      } else {
-        // First, prevent for clicking another card
-        allCards.forEach(function(card) {
-          card.removeEventListener('click', respondOnClick);
-        });
-        // Show that they don't match using CSS (add a class)
-        setTimeout(function() {
+      // When two cards are open check if they match
+      if (openedCards.length === 2) {
+        // If they match, change their classes and move to a new array
+        if (openedCards[0].dataset.card === openedCards[1].dataset.card) {
           openedCards.forEach(function(card) {
-            card.classList.add('unsuccessful');
-          });
-        }, 1000);
-        // Hide cards
-        setTimeout(function() {
-          openedCards.forEach(function(card) {
-            card.classList.remove('open', 'show', 'unsuccessful');
+            card.classList.remove('open', 'show');
+            card.classList.add('match');
+            matchedCards.push(card);
           });
           openedCards = [];
-          // "Unlock all cards"
+        // If they are diffrent, clear their classes and clear an array
+        } else {
+          // First, prevent for clicking another card
           allCards.forEach(function(card) {
-            card.addEventListener('click', respondOnClick);
+            card.removeEventListener('click', respondOnClick);
           });
-        }, 1500);
-      }
-      // Change a value of Moves Counter
-      moves += 1;
-      movesCounter.textContent = moves;
-      // Change a value of Star Rating
-      if (starRating.firstElementChild) {
-        if (moves === 13 || moves === 15 || moves === 17) {
-          starRating.removeChild(starRating.firstElementChild);
+          // Show that they don't match using CSS (add a class)
+          setTimeout(function() {
+            openedCards.forEach(function(card) {
+              card.classList.add('unsuccessful');
+            });
+          }, 1000);
+          // Hide cards
+          setTimeout(function() {
+            openedCards.forEach(function(card) {
+              card.classList.remove('open', 'show', 'unsuccessful');
+            });
+            openedCards = [];
+            // "Unlock all cards"
+            allCards.forEach(function(card) {
+              card.addEventListener('click', respondOnClick);
+            });
+          }, 1500);
         }
-      }
-      // End of the game if the victory condition is met
-      if (matchedCards.length === cards.length) {
-        clearInterval(myStopwatch);
-        setTimeout(displayCongratMsg, 1000);
+        // Change a value of Moves Counter
+        moves += 1;
+        movesCounter.textContent = moves;
+        // Change a value of Star Rating
+        if (starRating.firstElementChild) {
+          if (moves === 13 || moves === 15 || moves === 17) {
+            starRating.removeChild(starRating.firstElementChild);
+          }
+        }
+        // End of the game if the victory condition is met
+        if (matchedCards.length === cards.length) {
+          clearInterval(myStopwatch);
+          setTimeout(displayCongratMsg, 1000);
+        }
       }
     }
   }
