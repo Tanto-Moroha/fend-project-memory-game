@@ -70,7 +70,6 @@ function respondOnClick(ev) {
     if (!card.classList.contains('open') && !card.classList.contains('match')) {
       card.classList.add('open', 'show');
       openedCards.push(card);
-
       // When two cards are open, check if they match
       if (openedCards.length === 2) {
         // If they match, change their classes and move to a new array
@@ -85,13 +84,13 @@ function respondOnClick(ev) {
         } else {
           // First, prevent for clicking another card
           deck.removeEventListener('click', respondOnClick);
-          // Show that they don't match using CSS; add a class; a time for animation needed
+          // Show that they don't match using CSS; add a class; a time for finishing an opening animation is needed
           setTimeout(function() {
             openedCards.forEach(function(card) {
               card.classList.add('unsuccessful');
             });
           }, 800);
-          // Hide cards
+          // Hide cards; remove classes; a time for finishing an "unsuccessful" animation is needed
           setTimeout(function() {
             openedCards.forEach(function(card) {
               card.classList.remove('open', 'show', 'unsuccessful');
@@ -99,7 +98,7 @@ function respondOnClick(ev) {
             openedCards = [];
             // "Unlock" events listener for all cards after operations above
             deck.addEventListener('click', respondOnClick);
-          }, 1100);
+          }, 1200);
         }
         // Change a value of Moves Counter and show it
         moves += 1;
