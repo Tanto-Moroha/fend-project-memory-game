@@ -140,8 +140,8 @@ function displayCongratMsg() {
 }
 
 function restartGame() {
-  clearInterval(myStopwatch);
   initGame();
+  clearInterval(myStopwatch);
   while (starRating.firstElementChild) {
     starRating.removeChild(starRating.firstElementChild);
   }
