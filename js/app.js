@@ -9,21 +9,17 @@ const cards = [
   'fa-bomb', 'fa-bomb'
 ];
 
-const starRating = document.querySelector('.stars');
-
-const movesCounter = document.querySelector('.moves');
-let moves = 0;
-
-const stopwatch = document.querySelector('.stopwatch');
-let time = 0;
-
-const restart = document.querySelector('.restart');
-restart.addEventListener('click', restartGame);
-
 let openedCards = [];
 let matchedCards = [];
 
+const starRating = document.querySelector('.stars');
+const movesCounter = document.querySelector('.moves');
+const stopwatch = document.querySelector('.stopwatch');
+const restart = document.querySelector('.restart');
+
 let myStopwatch;
+let moves = 0;
+let time = 0;
 
 function initGame() {
   const deck = document.querySelector('.deck');
@@ -56,34 +52,36 @@ function shuffle(array) {
     return array;
 }
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+function cardsEventListenerSwitchOn(switchOn) {
+  const allCards = document.querySelectorAll('.card');
+  if (switchOn) {
+    allCards.forEach(function(card) {
+      card.addEventListener('click', respondOnClick);
+    });
+  } else{
+    allCards.forEach(function(card) {
+      card.removeEventListener('click', respondOnClick);
+    });
+  }
+}
 
 function respondOnClick(ev) {
+  // Check if event target is a card
   if (ev.target.tagName === 'LI') {
     const card = ev.target;
-
+    // Check if timer is running; switch it on if there is a need
     if (time === 0) {
       myStopwatch = setInterval(function() {
         time += 1;
         stopwatch.textContent = time;
       }, 1000);
     }
-
-    // Open and show a card if it wasn't opened or matched earlier
+    // Flip over a card if it's hidden
     if (!card.classList.contains('open') && !card.classList.contains('match')) {
       card.classList.add('open', 'show');
       openedCards.push(card);
 
-      // When two cards are open check if they match
+      // When two cards are open, check if they match
       if (openedCards.length === 2) {
         // If they match, change their classes and move to a new array
         if (openedCards[0].dataset.card === openedCards[1].dataset.card) {
@@ -109,14 +107,14 @@ function respondOnClick(ev) {
               card.classList.remove('open', 'show', 'unsuccessful');
             });
             openedCards = [];
-            // "Unlock all cards"
+            // "Unlock" events listener for all cards after operations above
             cardsEventListenerSwitchOn(true);
           }, 1500);
         }
-        // Change a value of Moves Counter
+        // Change a value of Moves Counter and show it
         moves += 1;
         movesCounter.textContent = moves;
-        // Change a value of Star Rating
+        // Change a value of Star Rating and show it
         if (moves === 13 || moves === 15) {
           if (starRating.firstElementChild) {
             starRating.removeChild(starRating.firstElementChild);
@@ -148,17 +146,6 @@ function restartGame() {
   starRating.innerHTML = '<li><i class="fa fa-star"></i></li> <li><i class="fa fa-star"></i></li> <li><i class="fa fa-star"></i></li>';
 }
 
-initGame();
+restart.addEventListener('click', restartGame);
 
-function cardsEventListenerSwitchOn(switchOn) {
-  const allCards = document.querySelectorAll('.card');
-  if (switchOn) {
-    allCards.forEach(function(card) {
-      card.addEventListener('click', respondOnClick);
-    });
-  } else{
-    allCards.forEach(function(card) {
-      card.removeEventListener('click', respondOnClick);
-    });
-  }
-}
+initGame();
