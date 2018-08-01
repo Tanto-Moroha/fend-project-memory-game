@@ -18,7 +18,7 @@ const stopwatch = document.querySelector('.stopwatch');
 const restart = document.querySelector('.restart');
 const deck = document.querySelector('.deck');
 
-var myStopwatch;
+let myStopwatch;
 
 let moves = 0;
 let time = 0;
@@ -60,7 +60,7 @@ function respondOnClick(ev) {
   if (ev.target.tagName === 'LI') {
     const card = ev.target;
     // Check if timer is running; switch it on if there is a need
-    if (time === 0) {
+    if (time === 0 && openedCards.length === 0) {
       myStopwatch = setInterval(function() {
         time += 1;
         stopwatch.textContent = time;
@@ -128,12 +128,12 @@ function displayCongratMsg() {
 }
 
 function restartGame() {
-  initGame();
   clearInterval(myStopwatch);
   while (starRating.firstElementChild) {
     starRating.removeChild(starRating.firstElementChild);
   }
   starRating.innerHTML = '<li><i class="fa fa-star"></i></li> <li><i class="fa fa-star"></i></li> <li><i class="fa fa-star"></i></li>';
+  initGame();
 }
 
 restart.addEventListener('click', restartGame);
