@@ -16,13 +16,14 @@ const starRating = document.querySelector('.stars');
 const movesCounter = document.querySelector('.moves');
 const stopwatch = document.querySelector('.stopwatch');
 const restart = document.querySelector('.restart');
+const deck = document.querySelector('.deck');
 
-let myStopwatch;
+var myStopwatch;
+
 let moves = 0;
 let time = 0;
 
 function initGame() {
-  const deck = document.querySelector('.deck');
   const cardsHTML = shuffle(cards).map(function(card) {
     return `<li class="card" data-card="${card}"><i class="fa ${card}"></i></li>`;
   });
@@ -34,7 +35,8 @@ function initGame() {
   time = 0;
   stopwatch.textContent = time;
 
-  cardsEventListenerSwitchOn(true);
+  openedCards = [];
+  matchedCards = [];
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -52,20 +54,8 @@ function shuffle(array) {
     return array;
 }
 
-function cardsEventListenerSwitchOn(switchOn) {
-  const allCards = document.querySelectorAll('.card');
-  if (switchOn) {
-    allCards.forEach(function(card) {
-      card.addEventListener('click', respondOnClick);
-    });
-  } else{
-    allCards.forEach(function(card) {
-      card.removeEventListener('click', respondOnClick);
-    });
-  }
-}
-
 function respondOnClick(ev) {
+  ev.stopPropagation();
   // Check if event target is a card
   if (ev.target.tagName === 'LI') {
     const card = ev.target;
@@ -94,13 +84,13 @@ function respondOnClick(ev) {
         // If they are diffrent, clear their classes and clear an array
         } else {
           // First, prevent for clicking another card
-          cardsEventListenerSwitchOn(false);
-          // Show that they don't match using CSS (add a class)
+          deck.removeEventListener('click', respondOnClick);
+          // Show that they don't match using CSS; add a class; a time for animation needed
           setTimeout(function() {
             openedCards.forEach(function(card) {
               card.classList.add('unsuccessful');
             });
-          }, 1000);
+          }, 800);
           // Hide cards
           setTimeout(function() {
             openedCards.forEach(function(card) {
@@ -108,8 +98,8 @@ function respondOnClick(ev) {
             });
             openedCards = [];
             // "Unlock" events listener for all cards after operations above
-            cardsEventListenerSwitchOn(true);
-          }, 1500);
+            deck.addEventListener('click', respondOnClick);
+          }, 1100);
         }
         // Change a value of Moves Counter and show it
         moves += 1;
@@ -147,5 +137,6 @@ function restartGame() {
 }
 
 restart.addEventListener('click', restartGame);
+deck.addEventListener('click', respondOnClick);
 
 initGame();
