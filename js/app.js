@@ -1,3 +1,8 @@
+// This anonymous function will wrap around an app/module's code and turn on Strict Mode
+(function() {
+  'use strict';
+
+// Begining of the app code
 const cards = [
   'fa-diamond', 'fa-diamond',
   'fa-paper-plane-o', 'fa-paper-plane-o',
@@ -139,3 +144,7 @@ restart.addEventListener('click', restartGame);
 deck.addEventListener('click', respondOnClick);
 
 initGame();
+// End of the app code above
+
+// End of the file (and Strict Mode)
+}());
