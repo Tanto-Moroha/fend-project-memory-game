@@ -56,9 +56,9 @@ The game ends once all cards have been correctly matched.
 ### Another remarks
 
 * You can't flip a card which is already face up.
-* When you click a second card from a pair, it is counted as a "move".
+* When you click a second card from a pair, it is counted as "a move".
 * The timer runs from a first click on a first card. It stops when last pair of cards is matched.
 * Star Rating shows your performance. At the beging it shows 3 stars. After 13 moves it drops to 2 stars and after 15 moves drops to 1 star.
-* You can reset a game a any time you want.
+* You can reset a game at any time you want.
 
 _Enjoy!_

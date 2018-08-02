@@ -56,10 +56,10 @@ function shuffle(array) {
 
 function respondOnClick(ev) {
   ev.stopPropagation();
-  // Check if event target is a card
+  // Check if an event target is a card
   if (ev.target.tagName === 'LI') {
     const card = ev.target;
-    // Check if timer is running; switch it on if there is a need
+    // Check if a timer is running; switch it on if it is a begining of game
     if (time === 0 && openedCards.length === 0) {
       myStopwatch = setInterval(function() {
         time += 1;
@@ -72,7 +72,7 @@ function respondOnClick(ev) {
       openedCards.push(card);
       // When two cards are open, check if they match
       if (openedCards.length === 2) {
-        // If they match, change their classes and move to a new array
+        // If cards match, change their classes and move to an another array
         if (openedCards[0].dataset.card === openedCards[1].dataset.card) {
           openedCards.forEach(function(card) {
             card.classList.remove('open', 'show');
@@ -80,11 +80,11 @@ function respondOnClick(ev) {
             matchedCards.push(card);
           });
           openedCards = [];
-        // If they are diffrent, clear their classes and clear an array
+        // If cards are diffrent, clear their classes and clear an array
         } else {
           // First, prevent for clicking another card
           deck.removeEventListener('click', respondOnClick);
-          // Show that they don't match using CSS; add a class; a time for finishing an opening animation is needed
+          // Show that cards don't match using CSS; add a class 'unsuccessful'; a time for finishing an opening animation is needed
           setTimeout(function() {
             openedCards.forEach(function(card) {
               card.classList.add('unsuccessful');
